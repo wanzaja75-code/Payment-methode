@@ -277,3 +277,41 @@ const visitorCount = document.getElementById("visitorCount");
 if (visitorCount) {
     visitorCount.innerText = visitors.toLocaleString("id-ID");
 }
+
+// BACKGROUND MUSIC
+const musicBtn = document.getElementById("musicBtn");
+const bgMusic = document.getElementById("bgMusic");
+
+let musicOn = localStorage.getItem("wanzMusic") === "on";
+
+function updateMusicButton(){
+    const icon = musicBtn.querySelector("i");
+
+    if(musicOn){
+        icon.className = "ri-volume-up-line";
+    }else{
+        icon.className = "ri-volume-mute-line";
+    }
+}
+
+musicBtn.onclick = () => {
+
+    if(musicOn){
+        bgMusic.pause();
+        musicOn = false;
+        localStorage.setItem("wanzMusic","off");
+    }else{
+        bgMusic.play().then(() => {
+            musicOn = true;
+            localStorage.setItem("wanzMusic","on");
+            updateMusicButton();
+        }).catch(() => {
+            musicOn = false;
+            updateMusicButton();
+        });
+    }
+
+    updateMusicButton();
+};
+
+updateMusicButton();
