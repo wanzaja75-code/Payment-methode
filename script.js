@@ -234,7 +234,7 @@ setInterval(() => {
     }
 
     posters[posterIndex].classList.add('active');
-}, 3000);
+}, 5000);
 
 const themeBtn = document.getElementById("themeBtn");
 
