@@ -532,3 +532,58 @@ body.light-mode .visitor-icon{
     background:#eff6ff;
     color:#2563eb;
                                  }
+
+/* =========================
+CLEAN HEADER
+========================= */
+
+.header-area{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+width:100%;
+}
+
+.header-left{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.header-logo{
+flex:1;
+text-align:center;
+font-size:18px;
+font-weight:900;
+letter-spacing:1px;
+color:var(--text-main);
+white-space:nowrap;
+}
+
+.header-logo span{
+color:#3b82f6;
+}
+
+/* tombol header */
+.header-area .btn-icon{
+flex-shrink:0;
+}
+
+/* sedikit lebih kecil supaya tidak penuh */
+@media(max-width:380px){
+.header-left{
+gap:5px;
+}
+
+.header-area .btn-icon{
+    width:48px;
+    height:48px;
+}
+
+.header-logo{
+    font-size:16px;
+    letter-spacing:.5px;
+}
+
+}
