@@ -309,3 +309,30 @@ musicBtn.onclick = () => {
 };
 
 updateMusicButton();
+
+// =========================
+// PAGE NAVIGATION
+// =========================
+
+function showPage(page, button){
+
+    document.querySelectorAll(".nav-item").forEach(item=>{
+        item.classList.remove("active");
+    });
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    if(page === "home"){
+        showToast("Home");
+    }
+
+    if(page === "info"){
+        showToast("Info");
+    }
+
+    if(page === "links"){
+        showToast("Links");
+    }
+}
