@@ -314,25 +314,37 @@ updateMusicButton();
 // PAGE NAVIGATION
 // =========================
 
-function showPage(page, button){
+window.showPage = function(page, button){
 
-    document.querySelectorAll(".nav-item").forEach(item=>{
+    const home = document.querySelector(".content-area");
+    const info = document.getElementById("infoPage");
+    const links = document.getElementById("linksPage");
+
+    // Matikan active semua tombol
+    document.querySelectorAll(".nav-item").forEach(item => {
         item.classList.remove("active");
     });
 
+    // Active tombol yang dipilih
     if(button){
         button.classList.add("active");
     }
 
+    // Sembunyikan semua halaman
+    home.style.display = "none";
+    info.classList.remove("active");
+    links.classList.remove("active");
+
+    // Tampilkan halaman
     if(page === "home"){
-        showToast("Home");
+        home.style.display = "";
     }
 
-    if(page === "info"){
-        showToast("Info");
+    else if(page === "info"){
+        info.classList.add("active");
     }
 
-    if(page === "links"){
-        showToast("Links");
+    else if(page === "links"){
+        links.classList.add("active");
     }
-}
+};
