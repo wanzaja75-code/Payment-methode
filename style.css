@@ -1042,3 +1042,90 @@ body.light-mode .link-arrow{
 body.light-mode .links-footer{
     color:#9ca3af;
         }
+
+/* =========================================
+   FIX BOTTOM NAVIGATION - ANTI KETUTUP
+   ========================================= */
+
+.app-frame {
+    padding-bottom: 95px !important;
+}
+
+/* Area halaman supaya konten terakhir tidak tenggelam */
+.content-area {
+    padding-bottom: 110px !important;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 82px;
+
+    z-index: 9999;
+
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Tombol navigasi */
+.bottom-nav .nav-item {
+    flex: 1;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+}
+
+/* =========================================
+   FIX FAB CHAT
+   ========================================= */
+
+.fab-container {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+
+    z-index: 10000;
+}
+
+.btn-fab {
+    width: 76px;
+    height: 76px;
+}
+
+/* =========================================
+   KHUSUS MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .content-area {
+        padding-bottom: 125px !important;
+    }
+
+    .bottom-nav {
+        height: 78px;
+    }
+
+    .fab-container {
+        right: 18px;
+        bottom: 95px;
+    }
+
+    .btn-fab {
+        width: 72px;
+        height: 72px;
+    }
+}
