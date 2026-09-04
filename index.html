@@ -26,14 +26,11 @@
     <!-- APP FRAME -->
     <div class="app-frame">
 
-        <!-- HEADER -->
+                <!-- HEADER -->
         <div class="header-area">
             <div style="display:flex; gap:10px;">
                 <div class="btn-icon ripple" id="btnMenu">
                     <i class="ri-apps-2-line"></i>
-                </div>
-                <div class="btn-icon ripple" id="themeBtn">
-                    <i class="ri-sun-line"></i>
                 </div>
                 <div class="btn-icon ripple" id="musicBtn">
                     <i class="ri-volume-up-line"></i>
@@ -42,9 +39,14 @@
             <div class="logo-wanz">
                 WEL<span>COME</span>
             </div>
-            <div class="btn-icon ripple" onclick="toggleNotifPanel()">
-                <i class="ri-notification-4-line"></i>
-                <div class="notif-badge" id="notifBadge">0</div>
+            <div style="display:flex; gap:10px;">
+                <div class="btn-icon ripple" id="themeBtn">
+                    <i class="ri-sun-line"></i>
+                </div>
+                <div class="btn-icon ripple" onclick="toggleNotifPanel()">
+                    <i class="ri-notification-4-line"></i>
+                    <div class="notif-badge" id="notifBadge">0</div>
+                </div>
             </div>
         </div>
 
