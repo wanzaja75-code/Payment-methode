@@ -311,7 +311,7 @@ musicBtn.onclick = () => {
 updateMusicButton();
 
 // =========================
-// PAGE NAVIGATION
+// PAGE NAVIGATION (UPDATED WITH SHOP)
 // =========================
 
 window.showPage = function(page, button){
@@ -319,32 +319,353 @@ window.showPage = function(page, button){
     const home = document.querySelector(".content-area");
     const info = document.getElementById("infoPage");
     const links = document.getElementById("linksPage");
+    const shop = document.getElementById("shopPage");
 
-    // Matikan active semua tombol
     document.querySelectorAll(".nav-item").forEach(item => {
         item.classList.remove("active");
     });
 
-    // Active tombol yang dipilih
     if(button){
         button.classList.add("active");
     }
 
-    // Sembunyikan semua halaman
     home.style.display = "none";
+
     info.classList.remove("active");
     links.classList.remove("active");
+    shop.classList.remove("active");
 
-    // Tampilkan halaman
+
     if(page === "home"){
+
         home.style.display = "";
+
+    }
+
+    else if(page === "shop"){
+
+        shop.classList.add("active");
+
+        // Pastikan produk dirender
+        renderProducts();
+
     }
 
     else if(page === "info"){
+
         info.classList.add("active");
+
     }
 
     else if(page === "links"){
+
         links.classList.add("active");
+
     }
+
 };
+
+
+/* =========================
+    SHOP / PRODUCT SYSTEM
+============================ */
+
+/* 
+    NOMOR WHATSAPP OWNER
+    Format: 628xxxxxxxxxx
+    Jangan pakai + dan jangan pakai 0 di depan.
+*/
+
+const OWNER_WHATSAPP = "6285216704274";
+
+
+/* =========================
+    DAFTAR PRODUK
+============================ */
+
+const products = [
+
+    {
+        id: 1,
+
+        name: "Produk Premium A",
+
+        price: 25000,
+
+        image: "produk1.jpg",
+
+        description:
+            "Produk premium dengan proses cepat dan mudah.",
+
+        detail:
+            "• Proses cepat\n• Bisa langsung digunakan\n• Support admin",
+
+        ready: true
+    },
+
+
+    {
+        id: 2,
+
+        name: "Produk Premium B",
+
+        price: 50000,
+
+        image: "produk2.jpg",
+
+        description:
+            "Produk premium lainnya dengan kualitas terbaik.",
+
+        detail:
+            "• Ready setiap hari\n• Proses manual\n• Bantuan admin tersedia",
+
+        ready: true
+    },
+
+
+    {
+        id: 3,
+
+        name: "Produk Premium C",
+
+        price: 75000,
+
+        image: "produk3.jpg",
+
+        description:
+            "Produk dengan stok terbatas.",
+
+        detail:
+            "• Stok terbatas\n• Proses setelah pembayaran\n• Tidak bisa refund",
+
+        ready: false
+    }
+
+];
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function formatRupiah(number){
+
+    return new Intl.NumberFormat("id-ID", {
+        style:"currency",
+        currency:"IDR",
+        maximumFractionDigits:0
+    }).format(number);
+
+}
+
+
+/* =========================
+   RENDER PRODUK
+========================= */
+
+function renderProducts(){
+
+    const container = document.getElementById("productList");
+
+    if(!container) return;
+
+    container.innerHTML = products.map(product => {
+
+        const statusClass =
+            product.ready ? "ready" : "sold";
+
+        const statusText =
+            product.ready ? "● READY" : "● HABIS";
+
+
+        return `
+
+        <div class="product-card">
+
+            <div class="product-image-wrap">
+
+                <img
+                    src="${product.image}"
+                    class="product-image"
+                    alt="${product.name}"
+                    onerror="this.src='https://placehold.co/800x500?text=Produk'"
+                >
+
+                <div class="product-status ${statusClass}">
+                    ${statusText}
+                </div>
+
+            </div>
+
+
+            <div class="product-content">
+
+                <div class="product-name">
+                    ${product.name}
+                </div>
+
+                <div class="product-price">
+                    ${formatRupiah(product.price)}
+                </div>
+
+                <div class="product-description">
+                    ${product.description}
+                </div>
+
+                <div class="product-detail">
+
+                    <div class="product-detail-title">
+                        DETAIL PRODUK
+                    </div>
+
+                    <div class="product-detail-text">
+                        ${product.detail.replace(/\n/g,"<br>")}
+                    </div>
+
+                </div>
+
+
+                <div class="product-actions">
+
+                    <button
+                        class="product-btn btn-question"
+                        onclick="askProduct(${product.id})"
+                    >
+                        <i class="ri-question-line"></i>
+                        Tanya
+                    </button>
+
+
+                    ${
+                        product.ready
+
+                        ?
+
+                        `
+                        <button
+                            class="product-btn btn-buy"
+                            onclick="buyProduct(${product.id})"
+                        >
+                            <i class="ri-shopping-cart-2-line"></i>
+                            Beli Sekarang
+                        </button>
+                        `
+
+                        :
+
+                        `
+                        <button
+                            class="product-btn btn-disabled"
+                            disabled
+                        >
+                            <i class="ri-close-circle-line"></i>
+                            Stok Habis
+                        </button>
+                        `
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function openWhatsApp(message){
+
+    const url =
+        "https://wa.me/" +
+        OWNER_WHATSAPP +
+        "?text=" +
+        encodeURIComponent(message);
+
+    window.open(url,"_blank");
+
+}
+
+
+/* =========================
+   TANYA PRODUK
+========================= */
+
+window.askProduct = function(id){
+
+    const product =
+        products.find(p => p.id === id);
+
+    if(!product) return;
+
+    playTick();
+
+    const message =
+`Halo Admin WANZPAY 👋
+
+Saya ingin bertanya mengenai produk:
+
+📦 Produk:
+${product.name}
+
+💰 Harga:
+${formatRupiah(product.price)}
+
+Apakah produk tersebut masih tersedia?
+
+Terima kasih 🙏`;
+
+    openWhatsApp(message);
+
+};
+
+
+/* =========================
+   BELI PRODUK
+========================= */
+
+window.buyProduct = function(id){
+
+    const product =
+        products.find(p => p.id === id);
+
+    if(!product || !product.ready) return;
+
+    playTick();
+
+    const message =
+`Halo Admin WANZPAY 👋
+
+Saya ingin membeli produk:
+
+📦 Produk:
+${product.name}
+
+💰 Harga:
+${formatRupiah(product.price)}
+
+Saya siap melakukan pembayaran.
+
+Mohon info proses selanjutnya 🙏`;
+
+    openWhatsApp(message);
+
+};
+
+
+/* =========================
+   JALANKAN PRODUK
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    renderProducts();
+
+});
