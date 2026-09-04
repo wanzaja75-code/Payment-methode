@@ -1177,8 +1177,6 @@ body.light-mode .menu-card::before{
     background:rgba(0,0,0,0.03);
 }
 
-/* QRIS CARD LIGHT MODE - sudah di atas */
-
 /* POSTER SLIDER LIGHT MODE */
 body.light-mode .poster-slider{
     background:#f3f4f6;
@@ -1197,4 +1195,265 @@ body.light-mode #loaderWanz h2{
 body.light-mode .spinnerWanz{
     border-color:#e5e7eb;
     border-top-color:#2563eb;
-            }
+}
+
+/* =========================
+   SHOP / PRODUCT PAGE
+========================= */
+
+.shop-heading{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:10px;
+    margin-bottom:22px;
+}
+
+.shop-heading-icon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    background:rgba(37,99,235,.15);
+    color:#60a5fa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.shop-heading h2{
+    color:var(--text-on-dark);
+    font-size:20px;
+    font-weight:800;
+    margin-bottom:3px;
+}
+
+.shop-heading p{
+    color:var(--text-muted);
+    font-size:11px;
+}
+
+/* PRODUCT LIST */
+
+.product-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.product-card{
+    background:#1e1e1e;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:22px;
+    overflow:hidden;
+    transition:.2s ease;
+}
+
+.product-card:active{
+    transform:scale(.985);
+}
+
+/* PRODUCT IMAGE */
+
+.product-image-wrap{
+    width:100%;
+    height:210px;
+    background:#121212;
+    position:relative;
+    overflow:hidden;
+}
+
+.product-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* STATUS */
+
+.product-status{
+    position:absolute;
+    top:12px;
+    right:12px;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:800;
+    backdrop-filter:blur(10px);
+}
+
+.product-status.ready{
+    background:rgba(34,197,94,.15);
+    color:#4ade80;
+    border:1px solid rgba(34,197,94,.25);
+}
+
+.product-status.sold{
+    background:rgba(239,68,68,.15);
+    color:#f87171;
+    border:1px solid rgba(239,68,68,.25);
+}
+
+/* PRODUCT CONTENT */
+
+.product-content{
+    padding:17px;
+}
+
+.product-name{
+    color:#fff;
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.product-price{
+    color:#60a5fa;
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.product-description{
+    color:#999;
+    font-size:11px;
+    line-height:1.6;
+    margin-bottom:14px;
+}
+
+/* DETAIL */
+
+.product-detail{
+    background:rgba(255,255,255,.04);
+    border-radius:13px;
+    padding:11px;
+    margin-bottom:14px;
+}
+
+.product-detail-title{
+    color:#ddd;
+    font-size:10px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.product-detail-text{
+    color:#888;
+    font-size:10px;
+    line-height:1.5;
+}
+
+/* BUTTON */
+
+.product-actions{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:9px;
+}
+
+.product-btn{
+    height:45px;
+    border:none;
+    border-radius:13px;
+    font-size:11px;
+    font-weight:800;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    transition:.2s ease;
+}
+
+.product-btn:active{
+    transform:scale(.96);
+}
+
+.btn-question{
+    background:#2a2a2a;
+    color:#ddd;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.btn-buy{
+    background:#2563eb;
+    color:#fff;
+}
+
+.btn-disabled{
+    background:#292929;
+    color:#666;
+    cursor:not-allowed;
+}
+
+/* LIGHT MODE SHOP */
+body.light-mode .shop-heading h2{
+    color:#111827;
+}
+
+body.light-mode .shop-heading p{
+    color:#6b7280;
+}
+
+body.light-mode .product-card{
+    background:#fff;
+    border-color:#e5e7eb;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+}
+
+body.light-mode .product-image-wrap{
+    background:#f3f4f6;
+}
+
+body.light-mode .product-name{
+    color:#111827;
+}
+
+body.light-mode .product-description{
+    color:#6b7280;
+}
+
+body.light-mode .product-detail{
+    background:#f3f4f6;
+}
+
+body.light-mode .product-detail-title{
+    color:#374151;
+}
+
+body.light-mode .product-detail-text{
+    color:#6b7280;
+}
+
+body.light-mode .btn-question{
+    background:#f3f4f6;
+    color:#374151;
+    border-color:#e5e7eb;
+}
+
+body.light-mode .btn-disabled{
+    background:#e5e7eb;
+    color:#9ca3af;
+}
+
+/* HP KECIL */
+@media(max-width:380px){
+
+    .product-image-wrap{
+        height:180px;
+    }
+
+    .product-content{
+        padding:14px;
+    }
+
+    .product-name{
+        font-size:15px;
+    }
+
+    .product-price{
+        font-size:16px;
+    }
+
+                          }
