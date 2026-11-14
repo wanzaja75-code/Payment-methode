@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — CIPUNG STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --surface: #1a1a1a;
+            --surface2: #222;
+            --border: #2a2a2a;
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+            --accent: #3b82f6;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 14px;
+        }
+        body.light {
+            --bg: #f5f5f5;
+            --surface: #ffffff;
+            --surface2: #f3f4f6;
+            --border: #e5e7eb;
+            --text: #111827;
+            --muted: #6b7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; }
+
+        .hidden { display: none !important; }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* LOGIN */
+        .login-wrap {
+            max-width: 380px;
+            margin: 10vh auto;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        .login-wrap h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--accent), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .login-wrap p { color: var(--muted); font-size: 12px; margin-bottom: 25px; }
+        .field { margin-bottom: 14px; }
+        .field label { font-size: 11px; color: var(--muted); font-weight: 700; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+        .field input, .field textarea, .field select {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
+        .field textarea { resize: vertical; min-height: 70px; }
+
+        .btn {
+            padding: 11px 18px;
+            border-radius: 10px;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: transform .15s, opacity .2s;
+            font-family: inherit;
+        }
+        .btn:active { transform: scale(.97); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-primary { background: var(--accent); color: #fff; width: 100%; justify-content: center; }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-warning { background: var(--warning); color: #000; }
+        .btn-danger { background: var(--danger); color: #fff; }
+        .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-sm { padding: 7px 11px; font-size: 11px; }
+
+        #errorLogin { color: var(--danger); font-size: 12px; margin-top: 10px; }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .topbar h1 { font-size: 17px; }
+        .topbar h1 span { color: var(--muted); font-weight: 500; font-size: 12px; display: block; margin-top: 3px; }
+        .topbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+        .stat-card {
+            background: var(--surface);
+            padding: 18px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent);
+        }
+        .stat-card.success::before { background: var(--success); }
+        .stat-card.warning::before { background: var(--warning); }
+        .stat-card.danger::before { background: var(--danger); }
+        .stat-card .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .stat-card .value { font-size: 24px; font-weight: 800; margin-top: 6px; }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            padding: 10px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: .2s;
+            font-family: inherit;
+        }
+        .tab-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* SECTION */
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn .3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .panel h2 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .panel h2 i { color: var(--accent); }
+
+        /* PRODUCT LIST */
+        .prod-list { display: grid; gap: 12px; }
+        .prod-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .prod-thumb {
+            width: 70px; height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: var(--surface);
+            flex-shrink: 0;
+        }
+        .prod-info { flex: 1; min-width: 150px; }
+        .prod-info h4 { font-size: 14px; margin-bottom: 3px; }
+        .prod-info .price { color: var(--accent); font-weight: 800; font-size: 14px; }
+        .prod-info .status {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 800;
+            margin-top: 5px;
+        }
+        .status.ready { background: rgba(34,197,94,.15); color: var(--success); }
+        .status.sold { background: rgba(239,68,68,.15); color: var(--danger); }
+        .prod-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        /* ORDER TABLE */
+        .order-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .order-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .order-item .info { flex: 1; min-width: 200px; }
+        .order-item .info h4 { font-size: 13px; margin-bottom: 3px; }
+        .order-item .info p { font-size: 11px; color: var(--muted); }
+        .order-item .price { color: var(--accent); font-weight: 800; }
+        .order-item .order-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .badge-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+        .badge-pending { background: rgba(245,158,11,.15); color: var(--warning); }
+        .badge-paid { background: rgba(59,130,246,.15); color: var(--accent); }
+        .badge-done { background: rgba(34,197,94,.15); color: var(--success); }
+        .badge-cancel { background: rgba(239,68,68,.15); color: var(--danger); }
+
+        /* EMPTY */
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+        .empty i { font-size: 32px; opacity: .4; display: block; margin-bottom: 10px; }
+
+        /* MODAL */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.7);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-backdrop.active { display: flex; }
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 460px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px;
+            animation: popIn .25s ease;
+        }
+        @keyframes popIn { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal h3 { margin-bottom: 18px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .modal h3 i { cursor: pointer; color: var(--muted); font-size: 20px; }
+        .modal-actions { display: flex; gap: 8px; margin-top: 18px; }
+        .modal-actions .btn { flex: 1; justify-content: center; }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 9999;
+            animation: slideUp .3s ease;
+        }
+        @keyframes slideUp { from { transform: translate(-50%, 20px); opacity: 0; } }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .stat-card .value { font-size: 20px; }
+            .topbar h1 { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginView" class="login-wrap">
+    <h1>🔐 Admin Panel</h1>
+    <p>CIPUNG STORE — Login untuk mengelola toko</p>
+
+    <div class="field">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="admin@cipungstore.com" autocomplete="username">
+    </div>
+    <div class="field">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary" onclick="doLogin()">
+        <i class="ri-login-box-line"></i> Login
+    </button>
+    <p id="errorLogin"></p>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashView" class="container hidden">
+
+    <div class="topbar">
+        <div>
+            <h1>🏪 CIPUNG STORE</h1>
+            <span>Admin Panel — <span id="adminEmail"></span></span>
+        </div>
+        <div class="topbar-actions">
+            <button class="btn btn-ghost btn-sm" onclick="toggleTheme()">
+                <i class="ri-sun-line" id="themeIcon"></i> Tema
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="openStore()">
+                <i class="ri-external-link-line"></i> Lihat Toko
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="doLogout()">
+                <i class="ri-logout-box-line"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="label">Total Produk</div>
+            <div class="value" id="statProducts">—</div>
+        </div>
+        <div class="stat-card success">
+            <div class="label">Total Order</div>
+            <div class="value" id="statOrders">—</div>
+        </div>
+        <div class="stat-card warning">
+            <div class="label">Revenue (Done)</div>
+            <div class="value" id="statRevenue">—</div>
+        </div>
+        <div class="stat-card danger">
+            <div class="label">Order Pending</div>
+            <div class="value" id="statPending">—</div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="products" onclick="switchTab('products', this)">
+            <i class="ri-shopping-bag-3-line"></i> Produk
+        </button>
+        <button class="tab-btn" data-tab="orders" onclick="switchTab('orders', this)">
+            <i class="ri-file-list-3-line"></i> Order
+        </button>
+    </div>
+
+    <!-- PRODUCTS SECTION -->
+    <div class="section active" id="section-products">
+        <div class="panel">
+            <h2><i class="ri-add-circle-line"></i> Tambah Produk</h2>
+            <div class="field">
+                <label>Nama Produk</label>
+                <input id="fName" placeholder="Contoh: Produk Premium A">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div class="field">
+                    <label>Harga (Rp)</label>
+                    <input id="fPrice" type="number" placeholder="25000">
+                </div>
+                <div class="field">
+                    <label>Status</label>
+                    <select id="fReady">
+                        <option value="1">✅ Ready</option>
+                        <option value="0">❌ Habis</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- UPLOAD GAMBAR IMGBB -->
+            <div class="field">
+                <label>Foto Produk</label>
+                <div id="uploadArea" style="border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:.2s;" onclick="document.getElementById('fImageFile').click()">
+                    <i class="ri-image-add-line" style="font-size:32px;color:var(--muted);"></i>
+                    <p style="font-size:12px;color:var(--muted);margin-top:8px;">Klik untuk pilih gambar (max 5MB)</p>
+                    <p style="font-size:10px;color:var(--muted);">JPG / PNG / WEBP</p>
+                </div>
+                <input type="file" id="fImageFile" accept="image/*" style="display:none;" onchange="previewUpload(event)">
+                
+                <div id="previewBox" style="margin-top:10px;display:none;">
+                    <img id="previewImg" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                    <button class="btn btn-ghost btn-sm" style="margin-top:8px;" onclick="clearUpload()">
+                        <i class="ri-close-line"></i> Hapus Gambar
+                    </button>
+                </div>
+                
+                <div class="field" style="margin-top:10px;">
+                    <label style="font-size:10px;">Atau paste URL gambar manual</label>
+                    <input id="fImage" placeholder="https://... atau produk1.jpg">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Deskripsi Singkat</label>
+                <input id="fDesc" placeholder="Deskripsi singkat produk">
+            </div>
+            <div class="field">
+                <label>Detail Produk</label>
+                <textarea id="fDetail" placeholder="• Proses cepat&#10;• Support admin"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="saveProduct()" id="btnSaveProduct">
+                <i class="ri-save-line"></i> Simpan Produk
+            </button>
+        </div>
+
+        <div class="panel">
+            <h2><i class="ri-list-check"></i> Daftar Produk</h2>
+            <div class="prod-list" id="prodList">
+                <div class="empty"><i class="ri-loader-4-line"></i>Memuat...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDERS SECTION -->
+    <div class="section" id="section-orders">
+        <div class="panel">
+            <h2><i class="ri-file-list-3-line"></i> Order Masuk (Real-time)</h2>
+            <div class="order-filter">
+                <button class="btn btn-ghost btn-sm" onclick="filterOrders('all')">Semua</button>
+                <button class="btn btn-ghost btn-sm" onclick="filterOrders('pending')">Pending</button>
+                <button class="btn btn-ghost btn-sm" onclick="filterOrders('paid')">Paid</button>
+                <button class="btn btn-ghost btn-sm" onclick="filterOrders('done')">Done</button>
+                <button class="btn btn-ghost btn-sm" onclick="filterOrders('cancel')">Cancel</button>
+                <button class="btn btn-ghost btn-sm" onclick="exportOrdersCSV()" style="margin-left:auto;">
+                    <i class="ri-download-line"></i> Export CSV
+                </button>
+            </div>
+            <div id="orderList">
+                <div class="empty"><i class="ri-loader-4-line"></i>Memuat...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDIT PRODUK -->
+<div class="modal-backdrop" id="editModal">
+    <div class="modal">
+        <h3>
+            <span>✏️ Edit Produk</span>
+            <i class="ri-close-line" onclick="closeEditModal()"></i>
+        </h3>
+        <input type="hidden" id="eId">
+        <div class="field">
+            <label>Nama Produk</label>
+            <input id="eName">
+        </div>
+        <div class="field">
+            <label>Harga (Rp)</label>
+            <input id="ePrice" type="number">
+        </div>
+
+        <!-- UPLOAD GAMBAR EDIT IMGBB -->
+        <div class="field">
+            <label>Foto Produk</label>
+            <div id="editPreviewBox" style="margin-bottom:8px;">
+                <img id="editPreviewImg" style="width:100%;max-height:150px;object-fit:cover;border-radius:10px;display:none;">
+            </div>
+            <div id="editUploadArea" style="border:2px dashed var(--border);border-radius:12px;padding:15px;text-align:center;cursor:pointer;" onclick="document.getElementById('eImageFile').click()">
+                <i class="ri-image-add-line" style="font-size:24px;color:var(--muted);"></i>
+                <p style="font-size:11px;color:var(--muted);margin-top:5px;">Klik untuk ganti gambar</p>
+            </div>
+            <input type="file" id="eImageFile" accept="image/*" style="display:none;" onchange="previewEditUpload(event)">
+            <div class="field" style="margin-top:8px;">
+                <label style="font-size:10px;">Atau URL gambar</label>
+                <input id="eImage">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Deskripsi</label>
+            <input id="eDesc">
+        </div>
+        <div class="field">
+            <label>Detail</label>
+            <textarea id="eDetail"></textarea>
+        </div>
+        <div class="field">
+            <label>Status</label>
+            <select id="eReady">
+                <option value="1">✅ Ready</option>
+                <option value="0">❌ Habis</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-ghost" onclick="closeEditModal()">Batal</button>
+            <button class="btn btn-primary" onclick="updateProduct()" id="btnUpdateProduct">
+                <i class="ri-save-line"></i> Simpan
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { firebaseConfig, IMGBB_API_KEY } from "./firebase-config.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import {
+        getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc,
+        doc, query, orderBy, onSnapshot, serverTimestamp, getDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+    import {
+        getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let PRODUCTS = [];
+    let ORDERS = [];
+    let currentFilter = 'all';
+    let orderUnsub = null;
+    let productUnsub = null;
+
+    // ============================
+    // TOAST
+    // ============================
+    function toast(msg, color = 'var(--accent)') {
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.style.background = color;
+        t.innerText = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+
+    // ============================
+    // LOGIN
+    // ============================
+    window.doLogin = async () => {
+        const email = document.getElementById('loginEmail').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        const err = document.getElementById('errorLogin');
+        err.innerText = '';
+        if (!email || !pass) {
+            err.innerText = 'Email & password wajib diisi!';
+            return;
+        }
+        try {
+            await signInWithEmailAndPassword(auth, email, pass);
+        } catch (e) {
+            err.innerText = 'Login gagal: ' + (e.code || e.message);
+        }
+    };
+
+    window.doLogout = () => signOut(auth);
+
+    document.getElementById('loginPass').addEventListener('keydown', e => {
+        if (e.key === 'Enter') doLogin();
+    });
+
+    // ============================
+    // AUTH STATE
+    // ============================
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            document.getElementById('loginView').classList.add('hidden');
+            document.getElementById('dashView').classList.remove('hidden');
+            document.getElementById('adminEmail').innerText = user.email;
+            listenProducts();
+            listenOrders();
+        } else {
+            document.getElementById('loginView').classList.remove('hidden');
+            document.getElementById('dashView').classList.add('hidden');
+            if (orderUnsub) { orderUnsub(); orderUnsub = null; }
+            if (productUnsub) { productUnsub(); productUnsub = null; }
+        }
+    });
+
+    // ============================
+    // REAL-TIME LISTENERS
+    // ============================
+    function listenProducts() {
+        if (productUnsub) productUnsub();
+        const q = query(collection(db, 'products'), orderBy('name'));
+        productUnsub = onSnapshot(q, snap => {
+            PRODUCTS = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+            renderProducts();
+            updateStats();
+        }, err => {
+            console.error('listenProducts:', err);
+            toast('Gagal load produk: ' + err.message, 'var(--danger)');
+        });
+    }
+
+    function listenOrders() {
+        if (orderUnsub) orderUnsub();
+        const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+        orderUnsub = onSnapshot(q, snap => {
+            ORDERS = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+            renderOrders();
+            updateStats();
+        }, err => {
+            console.error('listenOrders:', err);
+            toast('Gagal load order: ' + err.message, 'var(--danger)');
+        });
+    }
+
+    // ============================
+    // STATS
+    // ============================
+    function updateStats() {
+        document.getElementById('statProducts').innerText = PRODUCTS.length;
+        document.getElementById('statOrders').innerText = ORDERS.length;
+        const done = ORDERS.filter(o => o.status === 'done');
+        const revenue = done.reduce((s, o) => s + (Number(o.price) || 0), 0);
+        document.getElementById('statRevenue').innerText = 'Rp ' + revenue.toLocaleString('id-ID');
+        const pending = ORDERS.filter(o => o.status === 'pending').length;
+        document.getElementById('statPending').innerText = pending;
+    }
+
+    // ============================
+    // RENDER PRODUCTS
+    // ============================
+    function renderProducts() {
+        const container = document.getElementById('prodList');
+        if (PRODUCTS.length === 0) {
+            container.innerHTML = `<div class="empty"><i class="ri-shopping-bag-line"></i>Belum ada produk. Tambah di atas.</div>`;
+            return;
+        }
+        container.innerHTML = PRODUCTS.map(p => `
+            <div class="prod-item">
+                <img class="prod-thumb" src="${p.image || 'https://placehold.co/100'}"
+                     onerror="this.src='https://placehold.co/100'">
+                <div class="prod-info">
+                    <h4>${escapeHtml(p.name)}</h4>
+                    <div class="price">Rp ${(p.price || 0).toLocaleString('id-ID')}</div>
+                    <span class="status ${p.ready ? 'ready' : 'sold'}">${p.ready ? '● READY' : '● HABIS'}</span>
+                </div>
+                <div class="prod-actions">
+                    <button class="btn btn-ghost btn-sm" onclick="toggleReady('${p._id}')">
+                        <i class="ri-toggle-${p.ready ? 'fill' : 'line'}"></i>
+                        ${p.ready ? 'Set Habis' : 'Set Ready'}
+                    </button>
+                    <button class="btn btn-warning btn-sm" onclick="openEdit('${p._id}')">
+                        <i class="ri-edit-line"></i> Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p._id}')">
+                        <i class="ri-delete-bin-line"></i> Hapus
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ============================
+    // RENDER ORDERS
+    // ============================
+    function renderOrders() {
+        const container = document.getElementById('orderList');
+        let filtered = ORDERS;
+        if (currentFilter !== 'all') filtered = ORDERS.filter(o => o.status === currentFilter);
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="empty"><i class="ri-file-list-line"></i>Belum ada order ${currentFilter !== 'all' ? '(' + currentFilter + ')' : ''}.</div>`;
+            return;
+        }
+        container.innerHTML = filtered.map(o => {
+            const time = o.createdAt?.toDate?.().toLocaleString('id-ID') || '-';
+            const badge = {
+                pending: 'badge-pending', paid: 'badge-paid',
+                done: 'badge-done', cancel: 'badge-cancel'
+            }[o.status] || 'badge-pending';
+
+            let actionBtns = '';
+            if (o.status === 'pending') {
+                actionBtns = `
+                    <button class="btn btn-success btn-sm" onclick="setOrderStatus('${o._id}','paid')">
+                        <i class="ri-check-line"></i> Paid
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="setOrderStatus('${o._id}','cancel')">
+                        <i class="ri-close-line"></i> Cancel
+                    </button>`;
+            } else if (o.status === 'paid') {
+                actionBtns = `
+                    <button class="btn btn-success btn-sm" onclick="setOrderStatus('${o._id}','done')">
+                        <i class="ri-check-double-line"></i> Selesai
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="setOrderStatus('${o._id}','cancel')">
+                        <i class="ri-close-line"></i> Cancel
+                    </button>`;
+            } else {
+                actionBtns = `
+                    <button class="btn btn-ghost btn-sm" onclick="setOrderStatus('${o._id}','pending')">
+                        <i class="ri-arrow-go-back-line"></i> Reset
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o._id}')">
+                        <i class="ri-delete-bin-line"></i> Hapus
+                    </button>`;
+            }
+
+            return `
+                <div class="order-item">
+                    <div class="info">
+                        <h4>${escapeHtml(o.productName || '-')}</h4>
+                        <p>${time} • <span class="badge-status ${badge}">${o.status || 'pending'}</span></p>
+                    </div>
+                    <div class="price">Rp ${(Number(o.price) || 0).toLocaleString('id-ID')}</div>
+                    <div class="order-actions">${actionBtns}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // ============================
+    // PRODUCT CRUD
+    // ============================
+    window.saveProduct = async () => {
+        const btn = document.getElementById('btnSaveProduct');
+        const name = document.getElementById('fName').value.trim();
+        const price = parseInt(document.getElementById('fPrice').value);
+        const imageUrl = document.getElementById('fImage').value.trim();
+        const desc = document.getElementById('fDesc').value.trim();
+        const detail = document.getElementById('fDetail').value;
+        const ready = document.getElementById('fReady').value === '1';
+        const fileInput = document.getElementById('fImageFile');
+
+        if (!name || !price) return toast('Nama & harga wajib diisi!', 'var(--danger)');
+        if (!imageUrl && !fileInput.files[0]) return toast('Pilih foto atau paste URL!', 'var(--danger)');
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ri-loader-4-line"></i> Menyimpan...';
+
+        try {
+            let finalImage = imageUrl;
+
+            // Upload file ke ImgBB kalau ada file
+            if (fileInput.files[0]) {
+                finalImage = await uploadImage(fileInput.files[0]);
+            }
+
+            await addDoc(collection(db, 'products'), {
+                name, price, image: finalImage, description: desc, detail, ready
+            });
+
+            toast('✅ Produk ditambahkan!', 'var(--success)');
+            
+            // Reset form
+            document.getElementById('fName').value = '';
+            document.getElementById('fPrice').value = '';
+            document.getElementById('fImage').value = '';
+            document.getElementById('fDesc').value = '';
+            document.getElementById('fDetail').value = '';
+            clearUpload();
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ri-save-line"></i> Simpan Produk';
+        }
+    };
+
+    window.openEdit = (id) => {
+        const p = PRODUCTS.find(x => x._id === id);
+        if (!p) return;
+        document.getElementById('eId').value = id;
+        document.getElementById('eName').value = p.name || '';
+        document.getElementById('ePrice').value = p.price || 0;
+        document.getElementById('eImage').value = p.image || '';
+        document.getElementById('eDesc').value = p.description || '';
+        document.getElementById('eDetail').value = p.detail || '';
+        document.getElementById('eReady').value = p.ready ? '1' : '0';
+        
+        // Preview gambar lama
+        const img = document.getElementById('editPreviewImg');
+        if (p.image) {
+            img.src = p.image;
+            img.style.display = 'block';
+        } else {
+            img.style.display = 'none';
+        }
+        document.getElementById('eImageFile').value = '';
+        
+        document.getElementById('editModal').classList.add('active');
+    };
+
+    window.closeEditModal = () => {
+        document.getElementById('editModal').classList.remove('active');
+    };
+
+    window.updateProduct = async () => {
+        const btn = document.getElementById('btnUpdateProduct');
+        const id = document.getElementById('eId').value;
+        const imageUrl = document.getElementById('eImage').value.trim();
+        const fileInput = document.getElementById('eImageFile');
+
+        if (!document.getElementById('eName').value.trim() || !document.getElementById('ePrice').value) {
+            return toast('Nama & harga wajib!', 'var(--danger)');
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ri-loader-4-line"></i> Menyimpan...';
+
+        try {
+            let finalImage = imageUrl;
+
+            if (fileInput.files[0]) {
+                finalImage = await uploadImage(fileInput.files[0]);
+            }
+
+            await updateDoc(doc(db, 'products', id), {
+                name: document.getElementById('eName').value.trim(),
+                price: parseInt(document.getElementById('ePrice').value),
+                image: finalImage,
+                description: document.getElementById('eDesc').value.trim(),
+                detail: document.getElementById('eDetail').value,
+                ready: document.getElementById('eReady').value === '1'
+            });
+
+            toast('✅ Produk diperbarui!', 'var(--success)');
+            closeEditModal();
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ri-save-line"></i> Simpan';
+        }
+    };
+
+    window.toggleReady = async (id) => {
+        const p = PRODUCTS.find(x => x._id === id);
+        if (!p) return;
+        try {
+            await updateDoc(doc(db, 'products', id), { ready: !p.ready });
+            toast('Status diubah!', 'var(--success)');
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
+        }
+    };
+
+    window.deleteProduct = async (id) => {
+        if (!confirm('Yakin hapus produk ini? Tidak bisa dibatalkan.')) return;
+        try {
+            await deleteDoc(doc(db, 'products', id));
+            toast('🗑️ Produk dihapus', 'var(--warning)');
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
+        }
+    };
+
+    // ============================
+    // ORDER ACTIONS
+    // ============================
+    window.setOrderStatus = async (id, status) => {
+        try {
+            await updateDoc(doc(db, 'orders', id), { status });
+            toast('Status → ' + status, 'var(--success)');
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
+        }
+    };
+
+    window.deleteOrder = async (id) => {
+        if (!confirm('Hapus order ini?')) return;
+        try {
+            await deleteDoc(doc(db, 'orders', id));
+            toast('Order dihapus', 'var(--warning)');
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
+        }
+    };
+
+    window.filterOrders = (filter) => {
+        currentFilter = filter;
+        renderOrders();
+    };
+
+    // ============================
+    // EXPORT CSV
+    // ============================
+    window.exportOrdersCSV = () => {
+        if (ORDERS.length === 0) return toast('Belum ada order', 'var(--warning)');
+        const headers = ['Tanggal', 'Produk', 'Harga', 'Status'];
+        const rows = ORDERS.map(o => [
+            o.createdAt?.toDate?.().toLocaleString('id-ID') || '-',
+            o.productName || '-',
+            o.price || 0,
+            o.status || 'pending'
+        ]);
+        const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `orders-cipungstore-${Date.now()}.csv`;
+        link.click();
+        toast('📥 CSV diunduh', 'var(--success)');
+    };
+
+    // ============================
+    // TABS
+    // ============================
+    window.switchTab = (tab, btn) => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('section-' + tab).classList.add('active');
+    };
+
+    // ============================
+    // THEME
+    // ============================
+    if (localStorage.getItem('adminTheme') === 'light') {
+        document.body.classList.add('light');
+        document.getElementById('themeIcon').className = 'ri-moon-line';
+    }
+    window.toggleTheme = () => {
+        document.body.classList.toggle('light');
+        const isLight = document.body.classList.contains('light');
+        document.getElementById('themeIcon').className = isLight ? 'ri-moon-line' : 'ri-sun-line';
+        localStorage.setItem('adminTheme', isLight ? 'light' : 'dark');
+    };
+
+    // ============================
+    // OPEN STORE
+    // ============================
+    window.openStore = () => window.open('index.html', '_blank');
+
+    // ============================
+    // HELPERS
+    // ============================
+    function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+
+    // ============================
+    // UPLOAD GAMBAR KE IMGBB
+    // ============================
+    async function uploadImage(file) {
+        // Validasi ukuran max 5MB (batas ImgBB)
+        if (file.size > 5 * 1024 * 1024) {
+            throw new Error('Ukuran gambar maksimal 5MB');
+        }
+
+        if (!IMGBB_API_KEY || IMGBB_API_KEY.includes("MASUKKAN_API_KEY")) {
+            throw new Error('API Key ImgBB belum diisi di firebase-config.js');
+        }
+
+        toast('📤 Mengupload gambar ke ImgBB...', 'var(--accent)');
+
+        // Siapkan data form
+        const formData = new FormData();
+        formData.append('image', file);
+
+        // Kirim ke API ImgBB
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            toast('✅ Gambar terupload!', 'var(--success)');
+            return data.data.url; // Ini link gambar yang siap dipakai
+        } else {
+            throw new Error(data.error?.message || 'Gagal upload ke ImgBB');
+        }
+    }
+
+    // Preview gambar untuk tambah produk
+    window.previewUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            document.getElementById('previewImg').src = ev.target.result;
+            document.getElementById('previewBox').style.display = 'block';
+            document.getElementById('uploadArea').style.display = 'none';
+            // Kosongkan input URL biar gak dobel
+            document.getElementById('fImage').value = '';
+        };
+        reader.readAsDataURL(file);
+    };
+
+    window.clearUpload = () => {
+        document.getElementById('fImageFile').value = '';
+        document.getElementById('previewBox').style.display = 'none';
+        document.getElementById('uploadArea').style.display = 'block';
+    };
+
+    // Preview gambar untuk edit produk
+    window.previewEditUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const img = document.getElementById('editPreviewImg');
+            img.src = ev.target.result;
+            img.style.display = 'block';
+            document.getElementById('eImage').value = '';
+        };
+        reader.readAsDataURL(file);
+    };
+
+</script>
+</body>
+</html>
