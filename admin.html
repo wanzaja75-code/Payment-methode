@@ -489,12 +489,50 @@
     <!-- SETTINGS SECTION -->
     <div class="section" id="section-settings">
         <div class="panel">
-            <h2><i class="ri-bank-card-line"></i> Pengaturan Nomor Pembayaran</h2>
-            <p style="font-size:11px; color:var(--muted); margin-bottom:15px;">
-                Nomor di bawah ini akan muncul otomatis di website. Pastikan format angka saja.
-            </p>
+            <h2><i class="ri-settings-3-line"></i> Pengaturan Toko</h2>
+            
+            <!-- LOGO & BANNER -->
+            <h3 style="font-size:13px; margin-bottom:10px; color:var(--accent);">Identitas Toko</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
+                <!-- Upload Logo -->
+                <div class="field">
+                    <label>Logo Profil</label>
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:5px;">
+                        <img id="prev-logo" src="foto4.jpg" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid var(--border);">
+                        <input type="file" id="file-logo" accept="image/*" style="display:none;" onchange="uploadSettingImage(event, 'logo')">
+                        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('file-logo').click()">Ganti</button>
+                    </div>
+                </div>
+            </div>
 
-            <!-- E-Wallet -->
+            <!-- Upload Banner -->
+            <div class="field" style="margin-bottom:20px;">
+                <label>Banner / Poster (Bisa lebih dari 1)</label>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+                    <!-- Banner 1 -->
+                    <div style="text-align:center;">
+                        <img id="prev-banner1" src="poster1.jpg" style="width:100%; height:60px; border-radius:8px; object-fit:cover; border:1px solid var(--border); margin-bottom:5px;">
+                        <input type="file" id="file-banner1" accept="image/*" style="display:none;" onchange="uploadSettingImage(event, 'banner1')">
+                        <button class="btn btn-ghost btn-sm" style="width:100%; justify-content:center;" onclick="document.getElementById('file-banner1').click()">Ganti 1</button>
+                    </div>
+                    <!-- Banner 2 -->
+                    <div style="text-align:center;">
+                        <img id="prev-banner2" src="poster2.jpg" style="width:100%; height:60px; border-radius:8px; object-fit:cover; border:1px solid var(--border); margin-bottom:5px;">
+                        <input type="file" id="file-banner2" accept="image/*" style="display:none;" onchange="uploadSettingImage(event, 'banner2')">
+                        <button class="btn btn-ghost btn-sm" style="width:100%; justify-content:center;" onclick="document.getElementById('file-banner2').click()">Ganti 2</button>
+                    </div>
+                    <!-- Banner 3 -->
+                    <div style="text-align:center;">
+                        <img id="prev-banner3" src="poster3.jpg" style="width:100%; height:60px; border-radius:8px; object-fit:cover; border:1px solid var(--border); margin-bottom:5px;">
+                        <input type="file" id="file-banner3" accept="image/*" style="display:none;" onchange="uploadSettingImage(event, 'banner3')">
+                        <button class="btn btn-ghost btn-sm" style="width:100%; justify-content:center;" onclick="document.getElementById('file-banner3').click()">Ganti 3</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+
+            <!-- NOMOR PEMBAYARAN -->
             <h3 style="font-size:13px; margin-bottom:10px; color:var(--accent);">E-Wallet</h3>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <div class="field"><label>DANA</label><input type="text" id="pay-dana" placeholder="08xxxx"></div>
@@ -504,7 +542,6 @@
                 <div class="field"><label>LinkAja</label><input type="text" id="pay-linkaja" placeholder="08xxxx"></div>
             </div>
 
-            <!-- Bank -->
             <h3 style="font-size:13px; margin-top:20px; margin-bottom:10px; color:var(--accent);">Transfer Bank</h3>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <div class="field"><label>BCA</label><input type="text" id="pay-sea" placeholder="No Rekening"></div>
@@ -512,7 +549,6 @@
                 <div class="field"><label>BRI</label><input type="text" id="pay-bri" placeholder="No Rekening"></div>
             </div>
 
-            <!-- Pulsa -->
             <h3 style="font-size:13px; margin-top:20px; margin-bottom:10px; color:var(--accent);">Pulsa</h3>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <div class="field"><label>Telkomsel</label><input type="text" id="pay-pulsa" placeholder="08xxxx"></div>
@@ -522,7 +558,7 @@
             </div>
 
             <button class="btn btn-primary" style="margin-top:20px;" onclick="saveSettings()" id="btnSaveSettings">
-                <i class="ri-save-line"></i> Simpan Pengaturan
+                <i class="ri-save-line"></i> Simpan Nomor Pembayaran
             </button>
         </div>
     </div>
@@ -820,8 +856,6 @@
 
         try {
             let finalImage = imageUrl;
-
-            // Upload file ke ImgBB kalau ada file
             if (fileInput.files[0]) {
                 finalImage = await uploadImage(fileInput.files[0]);
             }
@@ -832,7 +866,6 @@
 
             toast('✅ Produk ditambahkan!', 'var(--success)');
             
-            // Reset form
             document.getElementById('fName').value = '';
             document.getElementById('fPrice').value = '';
             document.getElementById('fImage').value = '';
@@ -858,7 +891,6 @@
         document.getElementById('eDetail').value = p.detail || '';
         document.getElementById('eReady').value = p.ready ? '1' : '0';
         
-        // Preview gambar lama
         const img = document.getElementById('editPreviewImg');
         if (p.image) {
             img.src = p.image;
@@ -890,7 +922,6 @@
 
         try {
             let finalImage = imageUrl;
-
             if (fileInput.files[0]) {
                 finalImage = await uploadImage(fileInput.files[0]);
             }
@@ -984,7 +1015,7 @@
     };
 
     // ============================
-    // PENGATURAN PEMBAYARAN
+    // PENGATURAN PEMBAYARAN & GAMBAR
     // ============================
     async function loadSettings() {
         try {
@@ -995,6 +1026,11 @@
                     const input = document.getElementById('pay-' + key);
                     if (input) input.value = data[key];
                 });
+
+                if (data.logo) document.getElementById('prev-logo').src = data.logo;
+                if (data.banner1) document.getElementById('prev-banner1').src = data.banner1;
+                if (data.banner2) document.getElementById('prev-banner2').src = data.banner2;
+                if (data.banner3) document.getElementById('prev-banner3').src = data.banner3;
             }
         } catch (e) {
             console.error("Gagal load settings:", e);
@@ -1021,7 +1057,25 @@
             toast('Gagal: ' + e.message, 'var(--danger)');
         } finally {
             btn.disabled = false;
-            btn.innerHTML = '<i class="ri-save-line"></i> Simpan Pengaturan';
+            btn.innerHTML = '<i class="ri-save-line"></i> Simpan Nomor Pembayaran';
+        }
+    };
+
+    window.uploadSettingImage = async (event, type) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+            const imageUrl = await uploadImage(file);
+            await setDoc(doc(db, "settings", "payments"), { [type]: imageUrl }, { merge: true });
+            
+            const previewId = type === 'logo' ? 'prev-logo' : 'prev-' + type;
+            const prevImg = document.getElementById(previewId);
+            if (prevImg) prevImg.src = imageUrl;
+            
+            toast('✅ Berhasil diganti!', 'var(--success)');
+        } catch (e) {
+            toast('Gagal: ' + e.message, 'var(--danger)');
         }
     };
 
