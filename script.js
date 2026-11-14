@@ -424,16 +424,23 @@ window.addEventListener('load', () => {
 });
 
 // ============================================
-// POSTER SLIDER
+// POSTER SLIDER (OTOMATIS DARI ADMIN)
 // ============================================
 let posterIndex = 0;
-setInterval(() => {
-    const posters = document.querySelectorAll('.poster-img');
-    if (posters.length === 0) return;
-    posters[posterIndex].classList.remove('active');
-    posterIndex = (posterIndex + 1) % posters.length;
-    posters[posterIndex].classList.add('active');
-}, 5000);
+let sliderInterval = null;
+
+function startPosterSlider() {
+    if (sliderInterval) clearInterval(sliderInterval);
+    sliderInterval = setInterval(() => {
+        const posters = document.querySelectorAll('.poster-img');
+        if (posters.length <= 1) return;
+
+        posters[posterIndex].classList.remove('active');
+        posterIndex = (posterIndex + 1) % posters.length;
+        posters[posterIndex].classList.add('active');
+    }, 5000);
+}
+startPosterSlider();
 
 // ============================================
 // THEME TOGGLE
@@ -515,7 +522,7 @@ window.showPage = function(page, button) {
 };
 
 // ============================================
-// LOAD PENGATURAN PEMBAYARAN DARI DATABASE
+// LOAD PENGATURAN PEMBAYARAN & GAMBAR DARI DATABASE
 // ============================================
 async function loadPaymentSettings() {
     await waitFirebase();
@@ -525,12 +532,43 @@ async function loadPaymentSettings() {
         
         if (snap.exists()) {
             const data = snap.data();
+            
+            // 1. Update Nomor Pembayaran
             Object.keys(data).forEach(key => {
-                if (dataPay[key] && data[key]) {
+                if (dataPay[key] && data[key] && !key.startsWith('banner') && key !== 'logo') {
                     dataPay[key].num = data[key];
                 }
             });
-            console.log("Data pembayaran berhasil dimuat dari database.");
+
+            // 2. Update Logo Profil (Home & Links)
+            if (data.logo) {
+                const pImg = document.querySelector('.p-img');
+                const linksImg = document.querySelector('.links-avatar-wrap img');
+                if (pImg) pImg.src = data.logo;
+                if (linksImg) linksImg.src = data.logo;
+            }
+
+            // 3. Update Banner (Poster Slider)
+            const posterContainer = document.querySelector('.poster-slider');
+            if (posterContainer) {
+                let bannerHtml = '';
+                let hasBanner = false;
+
+                for (let i = 1; i <= 5; i++) {
+                    if (data['banner' + i]) {
+                        hasBanner = true;
+                        const activeClass = i === 1 ? 'active' : '';
+                        bannerHtml += `<img src="${data['banner' + i]}" class="poster-img ${activeClass}" alt="Banner ${i}" />`;
+                    }
+                }
+
+                if (hasBanner) {
+                    posterContainer.innerHTML = bannerHtml;
+                    posterIndex = 0;
+                    startPosterSlider();
+                }
+            }
+            console.log("Data pengaturan berhasil dimuat dari database.");
         }
     } catch (e) {
         console.error("Gagal load setting pembayaran:", e);
@@ -542,7 +580,7 @@ async function loadPaymentSettings() {
 // ============================================
 document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
-    loadPaymentSettings(); // Memuat nomor pembayaran dari admin
+    loadPaymentSettings();
 });
 
 // ============================================
