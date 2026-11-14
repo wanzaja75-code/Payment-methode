@@ -377,7 +377,7 @@ window.sendChat = (msg) => {
         const b = document.createElement('div');
         b.className = 'bubble b-bot';
         if (msg === 'konfirmasi') b.innerHTML = "✅ Konfirmasi Pembayaran Untuk mempercepat proses, mohon kirimkan bukti transfer kepada admin.";
-        else if (msg === 'admin') b.innerHTML = "📞 Hubungi Admin Untuk konfirmasi pembayaran atau informasi lebih lanjut, silakan hubungi admin melalui WhatsApp: 085216704274 Terima kasih.";
+        else if (msg === 'admin') b.innerHTML = "📞 Hubungi Admin Untuk konfirmasi pembayaran atau informasi lebih lanjut, silakan hubungi admin melalui WhatsApp: 082360200744 Terima kasih.";
         else b.innerHTML = "⚠️ Ada Kendala? Kalau pembayaran bermasalah, tunggu sebentar ya. Masih error? Langsung chat admin biar dibantu.";
         bodyC.appendChild(b);
         bodyC.scrollTop = bodyC.scrollHeight;
