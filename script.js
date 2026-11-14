@@ -2,7 +2,7 @@
 // CIPUNG STORE — script.js
 // ============================================
 
-// --- DATA PAYMENT ---
+// --- DATA PAYMENT (DEFAULT) ---
 const dataPay = {
     dana:     { name: 'DANA',     num: '08xxxx', img: 'https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg' },
     shopee:   { name: 'ShopeePay', num: '08xxxx', img: 'pay.jpg' },
@@ -105,7 +105,6 @@ async function loadProducts() {
 
     const { db, collection, getDocs } = window.FB;
     try {
-        // Ambil data tanpa query orderBy agar aman dari error data tidak lengkap
         const snap = await getDocs(collection(db, "products"));
         PRODUCTS_CACHE = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
         renderProducts();
@@ -173,7 +172,7 @@ function formatRupiah(number) {
 // WHATSAPP HELPER
 // ============================================
 function openWhatsApp(message, phone) {
-    const num = phone || "6282360200744"; // Ganti nomor WA kamu di sini
+    const num = phone || "6285216704274"; // Ganti nomor WA kamu di sini
     window.open("https://wa.me/" + num + "?text=" + encodeURIComponent(message), "_blank");
 }
 
@@ -504,13 +503,11 @@ window.showPage = function(page, button) {
     document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
     if (button) button.classList.add("active");
 
-    // Sembunyikan semua halaman
     if(home) home.style.display = "none";
     if(info) info.classList.remove("active");
     if(links) links.classList.remove("active");
     if(shop) shop.classList.remove("active");
 
-    // Tampilkan halaman yang dipilih
     if (page === "home" && home) home.style.display = "";
     else if (page === "shop" && shop) { shop.classList.add("active"); loadProducts(); }
     else if (page === "info" && info) info.classList.add("active");
@@ -518,10 +515,34 @@ window.showPage = function(page, button) {
 };
 
 // ============================================
+// LOAD PENGATURAN PEMBAYARAN DARI DATABASE
+// ============================================
+async function loadPaymentSettings() {
+    await waitFirebase();
+    try {
+        const { db, doc, getDoc } = window.FB;
+        const snap = await getDoc(doc(db, "settings", "payments"));
+        
+        if (snap.exists()) {
+            const data = snap.data();
+            Object.keys(data).forEach(key => {
+                if (dataPay[key] && data[key]) {
+                    dataPay[key].num = data[key];
+                }
+            });
+            console.log("Data pembayaran berhasil dimuat dari database.");
+        }
+    } catch (e) {
+        console.error("Gagal load setting pembayaran:", e);
+    }
+}
+
+// ============================================
 // INIT SEMUA FITUR SAAT HALAMAN DIBUKA
 // ============================================
 document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
+    loadPaymentSettings(); // Memuat nomor pembayaran dari admin
 });
 
 // ============================================
@@ -543,11 +564,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 logoClickCount = 0;
             }, 1500);
 
-            // Efek getar kecil tiap kali diklik
             logo.style.transform = 'scale(0.95)';
             setTimeout(() => logo.style.transform = 'scale(1)', 100);
 
-            // Jika sudah 5x klik
             if (logoClickCount >= 5) {
                 logoClickCount = 0;
                 playTick();
