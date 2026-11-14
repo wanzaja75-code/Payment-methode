@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <title>WEB PAYMENT WANZ</title>
+    <title>CIPUNG STORE</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link href="style.css" rel="stylesheet" />
@@ -26,7 +26,7 @@
     <!-- APP FRAME -->
     <div class="app-frame">
 
-                <!-- HEADER -->
+        <!-- HEADER -->
         <div class="header-area">
             <div style="display:flex; gap:10px;">
                 <div class="btn-icon ripple" id="btnMenu">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="logo-wanz">
-                WEL<span>COME</span>
+                CIPUNG<span> STORE</span>
             </div>
             <div style="display:flex; gap:10px;">
                 <div class="btn-icon ripple" id="themeBtn">
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <!-- CONTENT -->
+        <!-- CONTENT (HOME) -->
         <div class="content-area" id="homePage">
 
             <!-- PROFILE -->
@@ -75,7 +75,7 @@
 
             <!-- STATS -->
             <div class="stats-box">
-                <div class="stat"><h3>1.2K+</h3><small>Transaksi</small></div>
+                <div class="stat"><h3 id="statTrx">—</h3><small>Transaksi</small></div>
                 <div class="stat"><h3>99.9%</h3><small>Success</small></div>
                 <div class="stat"><h3>24/7</h3><small>Support</small></div>
             </div>
@@ -182,35 +182,26 @@
             <div style="height:30px;"></div>
         </div>
 
-        <!-- =========================
-             INFO PAGE
-        ========================= -->
+        <!-- INFO PAGE -->
         <div class="extra-page" id="infoPage">
-
             <div class="page-heading">
-                <div class="page-icon">
-                    <i class="ri-information-fill"></i>
-                </div>
+                <div class="page-icon"><i class="ri-information-fill"></i></div>
                 <div>
-                    <h2>Info WANZPAY</h2>
+                    <h2>Info CIPUNG STORE</h2>
                     <p>Informasi seputar layanan kami</p>
                 </div>
             </div>
 
             <div class="info-card">
-                <div class="info-card-icon">
-                    <i class="ri-shield-check-fill"></i>
-                </div>
+                <div class="info-card-icon"><i class="ri-shield-check-fill"></i></div>
                 <div>
                     <h3>Layanan Aman</h3>
-                    <p>Gunakan informasi pembayaran yang tersedia di website resmi WANZPAY.</p>
+                    <p>Gunakan informasi pembayaran yang tersedia di website resmi CIPUNG STORE.</p>
                 </div>
             </div>
 
             <div class="info-card">
-                <div class="info-card-icon">
-                    <i class="ri-time-fill"></i>
-                </div>
+                <div class="info-card-icon"><i class="ri-time-fill"></i></div>
                 <div>
                     <h3>Layanan 24/7</h3>
                     <p>Informasi pembayaran dapat diakses kapan saja.</p>
@@ -218,9 +209,7 @@
             </div>
 
             <div class="info-card">
-                <div class="info-card-icon">
-                    <i class="ri-bank-card-fill"></i>
-                </div>
+                <div class="info-card-icon"><i class="ri-bank-card-fill"></i></div>
                 <div>
                     <h3>Metode Pembayaran</h3>
                     <p>DANA, ShopeePay, GoPay, OVO, LinkAja dan beberapa metode lainnya.</p>
@@ -228,9 +217,7 @@
             </div>
 
             <div class="info-card">
-                <div class="info-card-icon">
-                    <i class="ri-customer-service-2-fill"></i>
-                </div>
+                <div class="info-card-icon"><i class="ri-customer-service-2-fill"></i></div>
                 <div>
                     <h3>Butuh Bantuan?</h3>
                     <p>Gunakan fitur Live Support untuk menghubungi admin jika mengalami kendala.</p>
@@ -244,161 +231,99 @@
                     <p>Pastikan nomor tujuan pembayaran sudah benar sebelum melakukan transfer.</p>
                 </div>
             </div>
-
         </div>
 
-        <!-- =========================
-             LINKS PAGE (PREMIUM)
-        ========================= -->
+        <!-- LINKS PAGE -->
         <div class="extra-page" id="linksPage">
-
             <div class="links-profile">
                 <div class="links-avatar-wrap">
-                    <img src="foto4.jpg" alt="WANZPAY">
+                    <img src="foto4.jpg" alt="CIPUNG STORE">
                     <div class="links-online"></div>
                 </div>
 
-                <h2>WANZPAY <span>💳</span></h2>
-                <p>Semua link resmi WANZPAY ada di sini</p>
+                <h2>CIPUNG STORE <span>💳</span></h2>
+                <p>Semua link resmi CIPUNG STORE ada di sini</p>
 
                 <div class="links-social-mini">
-                    <a href="https://instagram.com" target="_blank">
-                        <i class="ri-instagram-line"></i>
-                    </a>
-                    <a href="https://telegram.org" target="_blank">
-                        <i class="ri-telegram-line"></i>
-                    </a>
-                    <a href="https://wa.me/6285216704274" target="_blank">
-                        <i class="ri-whatsapp-line"></i>
-                    </a>
+                    <a href="https://instagram.com" target="_blank"><i class="ri-instagram-line"></i></a>
+                    <a href="https://telegram.org" target="_blank"><i class="ri-telegram-line"></i></a>
+                    <a href="https://wa.me/6285216704274" target="_blank"><i class="ri-whatsapp-line"></i></a>
                 </div>
             </div>
 
             <div class="links-list">
-
-                <a href="https://instagram.com"
-                   target="_blank"
-                   class="link-card ripple">
-
-                    <div class="link-icon instagram">
-                        <i class="ri-instagram-fill"></i>
-                    </div>
-
+                <a href="https://instagram.com" target="_blank" class="link-card ripple">
+                    <div class="link-icon instagram"><i class="ri-instagram-fill"></i></div>
                     <div class="link-info">
                         <strong>Instagram</strong>
-                        <span>Follow Instagram WANZPAY</span>
+                        <span>Follow Instagram CIPUNG STORE</span>
                     </div>
-
-                    <div class="link-arrow">
-                        <i class="ri-arrow-right-up-line"></i>
-                    </div>
+                    <div class="link-arrow"><i class="ri-arrow-right-up-line"></i></div>
                 </a>
 
-                <a href="https://telegram.org"
-                   target="_blank"
-                   class="link-card ripple">
-
-                    <div class="link-icon telegram">
-                        <i class="ri-telegram-fill"></i>
-                    </div>
-
+                <a href="https://telegram.org" target="_blank" class="link-card ripple">
+                    <div class="link-icon telegram"><i class="ri-telegram-fill"></i></div>
                     <div class="link-info">
                         <strong>Telegram</strong>
                         <span>Join channel Telegram kami</span>
                     </div>
-
-                    <div class="link-arrow">
-                        <i class="ri-arrow-right-up-line"></i>
-                    </div>
+                    <div class="link-arrow"><i class="ri-arrow-right-up-line"></i></div>
                 </a>
 
-                <a href="https://wa.me/6285216704274"
-                   target="_blank"
-                   class="link-card ripple">
-
-                    <div class="link-icon whatsapp">
-                        <i class="ri-whatsapp-fill"></i>
-                    </div>
-
+                <a href="https://wa.me/6285216704274" target="_blank" class="link-card ripple">
+                    <div class="link-icon whatsapp"><i class="ri-whatsapp-fill"></i></div>
                     <div class="link-info">
                         <strong>WhatsApp Admin</strong>
                         <span>Chat admin untuk bantuan</span>
                     </div>
-
-                    <div class="link-arrow">
-                        <i class="ri-arrow-right-up-line"></i>
-                    </div>
+                    <div class="link-arrow"><i class="ri-arrow-right-up-line"></i></div>
                 </a>
 
-                <a href="https://linkedin.com"
-                   target="_blank"
-                   class="link-card ripple">
-
-                    <div class="link-icon linkedin">
-                        <i class="ri-linkedin-fill"></i>
-                    </div>
-
+                <a href="https://linkedin.com" target="_blank" class="link-card ripple">
+                    <div class="link-icon linkedin"><i class="ri-linkedin-fill"></i></div>
                     <div class="link-info">
                         <strong>LinkedIn</strong>
-                        <span>Profil resmi WANZPAY</span>
+                        <span>Profil resmi CIPUNG STORE</span>
                     </div>
-
-                    <div class="link-arrow">
-                        <i class="ri-arrow-right-up-line"></i>
-                    </div>
+                    <div class="link-arrow"><i class="ri-arrow-right-up-line"></i></div>
                 </a>
 
-                <div class="link-card special-link ripple"
-                     onclick="showToast('Website resmi WANZPAY')">
-
-                    <div class="link-icon">
-                        <i class="ri-global-line"></i>
-                    </div>
-
+                <div class="link-card special-link ripple" onclick="showToast('Website resmi CIPUNG STORE')">
+                    <div class="link-icon"><i class="ri-global-line"></i></div>
                     <div class="link-info">
-                        <strong>Website WANZPAY</strong>
+                        <strong>Website CIPUNG STORE</strong>
                         <span>Payment &amp; informasi</span>
                     </div>
-
-                    <div class="link-arrow">
-                        <i class="ri-external-link-line"></i>
-                    </div>
+                    <div class="link-arrow"><i class="ri-external-link-line"></i></div>
                 </div>
-
             </div>
 
-            <!-- FOOTER LINKS -->
             <div class="links-footer">
                 <div class="links-footer-content">
                     <i class="ri-shield-check-fill"></i>
-                    <span>Official WANZPAY</span>
+                    <span>Official CIPUNG STORE</span>
                 </div>
             </div>
-
         </div>
 
-        <!-- =========================
-             SHOP PAGE
-        ========================= -->
+        <!-- SHOP PAGE -->
         <div class="extra-page" id="shopPage">
-
             <div class="shop-heading">
-                <div class="shop-heading-icon">
-                    <i class="ri-shopping-bag-3-fill"></i>
-                </div>
-
+                <div class="shop-heading-icon"><i class="ri-shopping-bag-3-fill"></i></div>
                 <div>
-                    <h2>Shop WANZPAY</h2>
+                    <h2>Shop CIPUNG STORE</h2>
                     <p>Produk yang tersedia untuk kamu</p>
                 </div>
             </div>
 
             <div class="product-list" id="productList">
-                <!-- Produk otomatis dari JavaScript -->
+                <div style="text-align:center;padding:40px;color:#888;">
+                    <i class="ri-loader-4-line" style="font-size:28px; animation: spinWanz 1s linear infinite; display: inline-block;"></i>
+                    <p style="margin-top:10px;font-size:12px;">Memuat produk...</p>
+                </div>
             </div>
 
             <div style="height:30px;"></div>
-
         </div>
 
         <!-- BOTTOM NAVIGATION -->
@@ -470,7 +395,26 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- FIREBASE INIT -->
+    <script type="module">
+        import { firebaseConfig } from "./firebase-config.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment,
+                 collection, getDocs, addDoc, query, orderBy, onSnapshot,
+                 serverTimestamp, deleteDoc, where } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.FB = {
+            db, doc, getDoc, setDoc, updateDoc, increment,
+            collection, getDocs, addDoc, query, orderBy, onSnapshot,
+            serverTimestamp, deleteDoc, where
+        };
+
+        window.dispatchEvent(new Event("firebase-ready"));
+    </script>
+
     <script src="script.js"></script>
 </body>
 </html>
