@@ -669,3 +669,42 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProducts();
 
 });
+
+// ============================================
+// EASTER EGG: TOMBOL RAHASIA ADMIN
+// Klik logo "CIPUNG STORE" 5x untuk masuk admin
+// ============================================
+let logoClickCount = 0;
+let logoTimer;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logo = document.querySelector('.logo-wanz');
+    
+    if (logo) {
+        logo.addEventListener('click', () => {
+            logoClickCount++;
+            
+            // Reset hitungan jika jeda antar klik lebih dari 1.5 detik
+            clearTimeout(logoTimer);
+            logoTimer = setTimeout(() => {
+                logoClickCount = 0;
+            }, 1500);
+
+            // Efek getar kecil tiap kali diklik
+            logo.style.transform = 'scale(0.95)';
+            setTimeout(() => logo.style.transform = 'scale(1)', 100);
+
+            // Jika sudah 5x klik
+            if (logoClickCount >= 5) {
+                logoClickCount = 0;
+                playTick();
+                showToast('🔓 Membuka Admin Panel...');
+                
+                // Pindah ke halaman admin setelah 1 detik
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+            }
+        });
+    }
+});
