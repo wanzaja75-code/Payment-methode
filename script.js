@@ -173,7 +173,7 @@ function formatRupiah(number) {
 // WHATSAPP HELPER
 // ============================================
 function openWhatsApp(message, phone) {
-    const num = phone || "6285216704274"; // Ganti nomor WA kamu di sini
+    const num = phone || "6282360200744"; // Ganti nomor WA kamu di sini
     window.open("https://wa.me/" + num + "?text=" + encodeURIComponent(message), "_blank");
 }
 
